@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Weather forcast</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+        <div class="logo">
+          <div>Weather</div> 
+          <div>Forcast</div>
+        </div>
+        <div class="weather-search">
+          <input
+            type="text"
+            id="location"
+            placeholder="Enter location..."
+          />
+          <button id="submit-location">
+            Submit
+          </button>
+        </div>
+    </header>
+    <section>
+      <div id="today-weather" class="weather-box">
+    </div>
+    </section>
+    <section>
+      <div class="hourly-chart-box">
+        <canvas id="hourlyTempChart" width="1000" height="400"></canvas>
+      </div>
+      <div id="hourly-weather" class="hourly-weather-box">
+      </div>
+    </section>
+    <section>
+      <div id="daily-weather" class="daily-weather-box">
+      </div>
+    </section>
+  </body>
+</html>
