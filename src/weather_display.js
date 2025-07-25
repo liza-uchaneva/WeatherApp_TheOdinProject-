@@ -3,14 +3,16 @@ import { weatherNow, weatherDaily, weatherHourly } from './weather_data_processi
 export function displayTodayWeather(today) {
   const box = document.getElementById('today-weather');
   box.innerHTML = `
-    <h2>${today.address}</h2>
     <div class="weather-summary">
-      <img src="https://raw.githubusercontent.com/visualcrossing/WeatherIcons/main/PNG/2nd%20Set%20-%20Color/${today.icon}.png" alt="${today.conditions}" class="weather-icon">
+      <div class="head">
+        <h2>${today.address}</h2>
+        <img src="https://raw.githubusercontent.com/visualcrossing/WeatherIcons/main/PNG/2nd%20Set%20-%20Color/${today.icon}.png" alt="${today.conditions}" class="weather-icon">
+      </div>
       <div class="weather-info">
         <p><strong>${today.description}</strong></p>
-        <p>🌡️ Temp: ${today.temp}°C (feels like ${today.feelslike}°C)</p>
-        <p>🔺 Max: ${today.tempmax}°C | 🔻 Min: ${today.tempmin}°C</p>
-        <p>☁️ Conditions: ${today.conditions}</p>
+        <p>Temp: ${today.temp}°C (feels like ${today.feelslike}°C)</p>
+        <p>Max: ${today.tempmax}°C | Min: ${today.tempmin}°C</p>
+        <p>Conditions: ${today.conditions}</p>
       </div>
     </div>
   `;
@@ -36,10 +38,9 @@ export function displayDailyWeather(data) {
               <div class="day">${date}</div>
               <img src="https://raw.githubusercontent.com/visualcrossing/WeatherIcons/main/PNG/2nd%20Set%20-%20Color/${day.icon}.png" alt="${day.conditions}" class="icon">
               <div class="temps">
-                <span class="max">🔺 ${day.tempmax}°C</span>
-                <span class="min">🔻 ${day.tempmin}°C</span>
+                <p class="max"> ${day.tempmax}°C</p>
+                <p class="min"> ${day.tempmin}°C</p>
               </div>
-              <div class="condition">${day.conditions}</div>
             </div>
           `;
         })
@@ -48,17 +49,27 @@ export function displayDailyWeather(data) {
 }
 
 export function displayHourlyWeather(data) {
-  const hourlyData = weatherHourly(data);
+  const hourlyData = Object.values(weatherHourly(data));
   const container = document.getElementById('hourly-weather');
+
+  const currentHour = new Date().getHours();
+
+  // Find index of current hour in the data
+  const startIndex = hourlyData.findIndex(h => {
+    const hour = parseInt(h.datetime.split(':')[0], 10);
+    return hour === currentHour;
+  });
+
+  const upcomingHours = hourlyData.slice(startIndex, startIndex + 12);
 
   container.innerHTML = `
     <div class="hourly-forecast-scroll">
-      ${Object.values(hourlyData)
-        .slice(0, 12) // Display first 12 hours only
+      ${upcomingHours
         .map(hour => {
           const time = new Date(`1970-01-01T${hour.datetime}`).toLocaleTimeString([], {
-            hour: '2-digit',
+            hour: 'numeric',
             minute: '2-digit',
+            hour12: true,
           });
 
           return `
@@ -69,8 +80,7 @@ export function displayHourlyWeather(data) {
                 alt="${hour.conditions}"
                 class="icon"
               >
-              <div class="temp">${hour.temp}°C</div>
-              <div class="condition">${hour.conditions}</div>
+              <div class="temp"><p>${hour.temp}°C</p></div>
             </div>
           `;
         })
@@ -79,16 +89,26 @@ export function displayHourlyWeather(data) {
   `;
 }
 
+
 export function renderHourlyTemperatureChart(data) {
-  const hourly = weatherHourly(data);
-  const hours = Object.values(hourly).slice(0, 8);
+  const hourlyData = Object.values(weatherHourly(data));
+  const currentHour = new Date().getHours();
+
+  const startIndex = hourlyData.findIndex(h => {
+    const hour = parseInt(h.datetime.split(':')[0], 10);
+    return hour === currentHour;
+  });
+
+  const hours = hourlyData.slice(startIndex, startIndex + 8);
 
   const labels = hours.map(h =>
     new Date(`1970-01-01T${h.datetime}`).toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
+      hour12: true,
     })
   );
+
   const temps = hours.map(h => h.temp);
 
   const ctx = document.getElementById('hourlyTempChart').getContext('2d');
@@ -116,19 +136,52 @@ export function renderHourlyTemperatureChart(data) {
     },
     options: {
       responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              family: 'Karla',
+              weight: '400',
+              size: 14,
+            },
+          },
+        },
+      },
       scales: {
         x: {
           title: {
             display: true,
-            text: 'Hour',
+            font: {
+              family: 'Karla',
+              weight: '200',
+              size: 14,
+            },
+          },
+          ticks: {
+            font: {
+              family: 'Karla',
+              weight: '200',
+              size: 16,
+            },
           },
         },
         y: {
           title: {
             display: true,
             text: 'Temperature (°C)',
+            font: {
+              family: 'Karla',
+              weight: '200',
+              size: 16,
+            },
           },
-          beginAtZero: false,
+          ticks: {
+            font: {
+              family: 'Karla',
+              weight: '200',
+              size: 16,
+            },
+          },
         },
       },
     },

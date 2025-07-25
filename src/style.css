@@ -1,24 +1,42 @@
+/* ======= Fonts ======= */
 @font-face {
-  font-family: "RetroFloral";
-  src: url("./assets/fonts/retro-floral/Retro\ Floral.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+  font-family: "Rubik-SemiBold";
+  src: url("./assets/fonts/Rubik/static/Rubik-SemiBold.ttf") format("truetype");
 }
-h2{
-    font-family: 'RetroFloral', sans-serif;
+
+@font-face {
+  font-family: "Rubik";
+  src: url("./assets/fonts/Rubik/static/Rubik-Regular.ttf") format("truetype");
 }
-/* Reset & Base */
+
+@font-face {
+  font-family: "Karla-ExtraLight";
+  src: url("./assets/fonts/Karla/static/Karla-ExtraLight.ttf") format("truetype");
+}
+
+/* ======= Base & Reset ======= */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
- 
+  font-family: 'Rubik', sans-serif;
+  background-color: #fdfdfd;
+  color: #111;
 }
 
-/* Header Layout */
+h2 {
+  font-family: 'Rubik', sans-serif;
+}
+
+p {
+  font-family: 'Karla-ExtraLight', sans-serif;
+}
+
+
+/* ======= Header ======= */
 header {
   display: flex;
   justify-content: space-between;
@@ -28,10 +46,10 @@ header {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo Style */
 .logo {
-  font-weight: bold;
+  font-family: 'Rubik-SemiBold', sans-serif;
   font-size: 28px;
+  font-weight: bold;
   line-height: 1.1;
   display: flex;
   flex-direction: column;
@@ -39,21 +57,26 @@ header {
   text-shadow: 1px 1px 0 #b3e5fc;
   letter-spacing: 1px;
   user-select: none;
-  font-family: 'RetroFloral', sans-serif;
 }
 
-/* Weather Search */
+
+/* ======= Search ======= */
 .weather-search {
   display: flex;
   gap: 10px;
 }
 
-.weather-search input {
+.weather-search input,
+.weather-search button {
   padding: 10px 14px;
-  font-size: 16px;
-  border: 2px solid #ccc;
+  font-size: 18px;
   border-radius: 8px;
-  width: 240px;
+  font-family: "Karla-ExtraLight", sans-serif;
+}
+
+.weather-search input {
+  width: 340px;
+  border: 2px solid #ccc;
   transition: border 0.3s ease;
 }
 
@@ -63,18 +86,23 @@ header {
 }
 
 .weather-search button {
-  padding: 10px 14px;
-  font-size: 16px;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
   background-color: #0077ff;
   color: white;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .weather-search button:hover {
   background-color: #005dc1;
+}
+
+
+/* ======= Today Weather ======= */
+.today-weather {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .weather-box {
@@ -88,19 +116,36 @@ header {
 
 .weather-summary {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 16px;
+}
+
+.weather-summary .head {
+  display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .weather-icon {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
+  margin: 5px;
+  flex-shrink: 0;
+}
+
+.weather-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .weather-info p {
-  margin: 6px 0;
+  margin: 0;
 }
 
+
+/* ======= Daily Forecast ======= */
 .daily-weather-box {
   max-width: 1000px;
   margin: 40px auto;
@@ -125,10 +170,10 @@ header {
 
 .daily-card {
   width: 120px;
-  background: #ffffff;
-  border-radius: 10px;
   padding: 10px;
   text-align: center;
+  background: #ffffff;
+  border-radius: 10px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s;
 }
@@ -137,7 +182,9 @@ header {
   transform: scale(1.05);
 }
 
-.daily-card .day {
+.daily-card .day,
+.hourly-card .time {
+  font-family: "Rubik", sans-serif;
   font-weight: bold;
   margin-bottom: 6px;
 }
@@ -147,16 +194,27 @@ header {
   height: 48px;
 }
 
-.daily-card .temps {
-  font-size: 14px;
+.daily-card .temps,
+.hourly-card .temp,
+.weather-info {
+  font-size: 18px;
   margin: 6px 0;
 }
 
-.daily-card .condition {
+.daily-card .condition,
+.hourly-card .condition {
   font-size: 13px;
   color: #555;
+  font-weight: bold;
 }
 
+.max,
+.temp {
+  font-weight: bold;
+}
+
+
+/* ======= Hourly Forecast ======= */
 .hourly-weather-box {
   max-width: 1000px;
   margin: 40px auto;
@@ -182,19 +240,13 @@ header {
 
 .hourly-card {
   min-width: 100px;
-  background: white;
-  border-radius: 10px;
   padding: 10px;
   text-align: center;
+  background: white;
+  border-radius: 10px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
   scroll-snap-align: start;
   flex-shrink: 0;
-}
-
-.hourly-card .time {
-  font-weight: bold;
-  margin-bottom: 4px;
-  font-size: 14px;
 }
 
 .hourly-card .icon {
@@ -202,16 +254,8 @@ header {
   height: 40px;
 }
 
-.hourly-card .temp {
-  font-size: 16px;
-  margin: 6px 0 2px;
-}
 
-.hourly-card .condition {
-  font-size: 12px;
-  color: #555;
-}
-
+/* ======= Hourly Chart ======= */
 .hourly-chart-box {
   max-width: 1000px;
   margin: 40px auto;
@@ -226,3 +270,4 @@ header {
   color: #0077ff;
   margin-bottom: 16px;
 }
+

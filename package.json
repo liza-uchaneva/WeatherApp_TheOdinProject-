@@ -1,13 +1,12 @@
 {
   "name": "todolist",
   "version": "1.0.0",
-  "description": "* [Project Description](https://www.theodinproject.com/lessons/javascript-todo-list)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
-    "pushpages": "git subtree push --prefix dist origin gh-pages"
+    "gitHubOrigin": "git subtree push --prefix dist origin gh-pages",
+    "dev": "webpack serve",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
@@ -16,15 +15,19 @@
     "@eslint/js": "^9.9.0",
     "css-loader": "^7.1.2",
     "eslint": "^9.9.0",
+    "file-loader": "^6.2.0",
     "globals": "^15.9.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.0",
+    "mini-css-extract-plugin": "^2.9.2",
     "prettier": "3.3.3",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.89.2",
+    "sass-loader": "^16.0.5",
     "style-loader": "^4.0.0",
-    "webpack": "^5.92.1",
+    "webpack": "^5.99.9",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",
-    "webpack-merge": "^6.0.1"
+    "webpack-dev-server": "^5.2.2"
   },
   "dependencies": {
     "bulma": "^1.0.2",
